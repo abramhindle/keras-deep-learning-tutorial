@@ -1,0 +1,5 @@
+apt-get install build-essential python-scipy python-numpy lubuntu-desktop gedit vim-gnome emacs python-pip git bpython
+pip install theanets
+pip install pyasn1
+pip install ndg-httpclient
+pip install bpython
