@@ -10,18 +10,20 @@ pip install theanets
 pip install bpython
 `````
 
+otherwise consider provisioning a vagrant box defined by the vagrantfile in the vagrant/ directory.
+
+
 Data
 ====
 
-If you don't have a VM version of this tutorial please get the following datasets.
-
-* Duplicate bugs
-* 
+We're planning on using some data. TBD.
 
 Intro
 =====
 
 What is machine learning?
+
+
 
 
 
