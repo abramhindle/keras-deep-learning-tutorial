@@ -15,7 +15,8 @@ Data
 
 If you don't have a VM version of this tutorial please get the following datasets.
 
-
+* Duplicate bugs
+* 
 
 Intro
 =====
