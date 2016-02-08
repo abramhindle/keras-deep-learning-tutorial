@@ -68,7 +68,7 @@ Vagrant.configure(2) do |config|
 	apt-get install -y build-essential python-scipy python-numpy lubuntu-desktop gedit vim-gnome emacs python-pip git vim-gnome emacs wget curl
 	pip install theanets
 	pip install pyasn1
-	pip install ndg-httpclient
+	pip install ndg-httpsclient
 	pip install bpython
   SHELL
 end
