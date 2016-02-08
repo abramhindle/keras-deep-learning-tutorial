@@ -1,3 +1,6 @@
+# Demonstration of how to pose the problem and how different formulations
+# lead to different results!
+#
 # The MIT License (MIT)
 # 
 # Copyright (c) 2016 Abram Hindle <hindle1@ualberta.ca>, Leif Johnson <leif@lmjohns3.com>
@@ -59,11 +62,14 @@ POWER=1
 NORM=2
 UNIFORM=3
 
+print '''
 ########################################################################
 # Experiment 1: can we classify single samples?
 #
 #
 #########################################################################
+'''
+
 def make_dataset1():
     '''Make a dataset of single samples with labels from which distribution they come from'''
     # now lets make some samples 
@@ -150,12 +156,13 @@ print "For %s we get %s which is interpreted as class: %s -- but it was %s" % (d
 
 print "We could train longer and we might get better results, but there's ambiguity in each. As a human we might have a hard time determining them."
 
+print '''
 ########################################################################
 # Experiment 2: can we classify a sample of data?
 #
 #
 #########################################################################
-
+'''
 
 print "In this example we're going to input 40 values from a single distribution, and we'll see if we can classify the distribution."
 
@@ -222,12 +229,13 @@ print "But what if we help it out, and we sort the values so that the first and 
 
 # now lets input sorted values
 
+print '''
 ########################################################################
 # Experiment 3: can we classify a SORTED sample of data?
 #
 #
 #########################################################################
-
+'''
 
 
 print "Sorting the data"
@@ -249,12 +257,13 @@ print "What if we add binning, where by we classify the histogram?"
 
 # a little better
 
+print '''
 ########################################################################
 # Experiment 4: can we classify a discretized histogram of sample data?
 #
 #
 #########################################################################
-
+'''
 
 # let's try actual binning
 
