@@ -1,3 +1,25 @@
+# The MIT License (MIT)
+# 
+# Copyright (c) 2016 Abram Hindle <hindle1@ualberta.ca>, Leif Johnson <leif@lmjohns3.com>
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 # first off we load up some modules we want to use
 import theanets
 import scipy
@@ -37,6 +59,11 @@ POWER=1
 NORM=2
 UNIFORM=3
 
+########################################################################
+# Experiment 1: can we classify single samples?
+#
+#
+#########################################################################
 def make_dataset1():
     '''Make a dataset of single samples with labels from which distribution they come from'''
     # now lets make some samples 
@@ -123,6 +150,13 @@ print "For %s we get %s which is interpreted as class: %s -- but it was %s" % (d
 
 print "We could train longer and we might get better results, but there's ambiguity in each. As a human we might have a hard time determining them."
 
+########################################################################
+# Experiment 2: can we classify a sample of data?
+#
+#
+#########################################################################
+
+
 print "In this example we're going to input 40 values from a single distribution, and we'll see if we can classify the distribution."
 
 width=40
@@ -188,6 +222,14 @@ print "But what if we help it out, and we sort the values so that the first and 
 
 # now lets input sorted values
 
+########################################################################
+# Experiment 3: can we classify a SORTED sample of data?
+#
+#
+#########################################################################
+
+
+
 print "Sorting the data"
 wdata.sort(axis=1)
 test_wdata.sort(axis=1)
@@ -207,17 +249,25 @@ print "What if we add binning, where by we classify the histogram?"
 
 # a little better
 
+########################################################################
+# Experiment 4: can we classify a discretized histogram of sample data?
+#
+#
+#########################################################################
+
+
 # let's try actual binning
+
 
 def bin(row):
     return np.histogram(row,bins=len(row),range=(0.0,1.0))[0]/float(len(row))
 
 print "Apply the histogram to all the data rows"
-bdata = np.apply_along_axis(bin,1,wdata)
+bdata = np.apply_along_axis(bin,1,wdata).astype(np.float32)
 blabels = wlabels
 
 # ensure we have our test data
-test_bdata = np.apply_along_axis(bin,1,test_wdata)
+test_bdata = np.apply_along_axis(bin,1,test_wdata).astype(np.float32)
 test_blabels = test_wlabels
 
 # helper data 
@@ -233,8 +283,7 @@ def classify_test(bnet,ntests=1000):
     for tup in enum_funcs:
         enum, name, func = tup
         lns = min_max_scale(func(size=(ntests,width))) #log normal
-        blns = np.apply_along_axis(bin,1,lns)
-        blns = bls.astype(np.float32)
+        blns = np.apply_along_axis(bin,1,lns).astype(np.float32)
         blns_labels = np.repeat(enum,ntests)
         blns_labels.astype(np.int32)
         classification = bnet.classify(blns)
