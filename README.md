@@ -38,7 +38,7 @@ Building a function from data to classify, predict, group, or represent data.
 
 Imagine we have this data:
 
-![2 crescent slices](slice.png "A function we want to learn f(x,y) -> z where z is red")
+![2 crescent slices](images/slice.png "A function we want to learn f(x,y) -> z where z is red")
 
 There are a few kinds of tasks or functions that could help us here.
 
