@@ -72,8 +72,12 @@ Vagrant.configure(2) do |config|
 	pip install ndg-httpsclient
 	pip install bpython
         cd ~vagrant && \
-        git clone https://github.com/abramhindle/theanets-tutorial && \
+        git clone https://github.com/abramhindle/theanets-tutorial 
 	chown -R vagrant.vagrant theanets-tutorial
+        cd theanets-tutorial
+        git pull origin master
+        cd ~
+        mkdir ~vagrant/Desktop/ || true
         ln -sf ~vagrant/theanets-tutorial ~vagrant/Desktop/theanets-tutorial
   SHELL
 end
