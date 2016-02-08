@@ -1,0 +1,5 @@
+* Startup 
+
+* Cover inputs and outputs
+* Cover how to form inputs
+* Cover manipulating outputs
