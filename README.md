@@ -6,6 +6,8 @@
 
 Slides stolen gracefully from Ben Zittlau
 
+Slide content under CC-BY-SA 4.0 and MIT License for source
+code. Slide Source code is MIT License as well.
 
 
 ## Start
@@ -46,6 +48,30 @@ Imagine we have this data:
 ![2 crescent slices](images/slice.png "A function we want to learn
  f(x,y) -> z where z is red")
 
+[See src/genslice.py to see how we made it.](src/genslice.py)
+
+
+
+# Intro
+### Make your own function
+
+``` python
+def in_circle(x,y,cx,cy,radius):
+    return (x - float(cx)) ** 2 + (y - float(cy)) ** 2 < radius**2
+
+def mysolution(pt,outer=0.3):
+    return in_circle(pt[0],pt[1],0.5,0.5,outer) and not in_circle(pt[0],pt[1],0.5,0.5,0.1)
+```
+
+```
+>>> myclasses = np.apply_along_axis(mysolution,1,test[0])
+>>> print "My classifier!"
+My classifier!
+>>> print "%s / %s " % (sum(myclasses == test[1]),len(test[1]))
+181 / 200 
+>>> print theautil.classifications(myclasses,test[1])
+[('tp', 91), ('tn', 90), ('fp', 19), ('fn', 0)]
+```
 
 
 # Intro
@@ -100,7 +126,44 @@ def oneNN(data,labels):
 
 
 
+# Intro
+### An example classifier: 1-NN
 
+``` python
+>>> learner = oneNN(train[0],train[1])
+>>> 
+>>> oneclasses = np.apply_along_axis(learner,1,test[0])
+>>> print "1-NN classifier!"
+1-NN classifier!
+>>> print "%s / %s " % (sum(oneclasses == test[1]),len(test[1]))
+198 / 200 
+>>> print theautil.classifications(oneclasses,test[1])
+[('tp', 91), ('tn', 107), ('fp', 2), ('fn', 0)]
+
+```
+
+1-NN has great performance in this example, but it uses Euclidean
+distance and the dataset is really quite biased to the positive
+classes.
+
+Thus we showed a simple learner that classifies data.
+
+
+
+# Intro
+### Machine Learning: Neural Networks
+
+Neural networks or "Artificial Neural Networks" are a flexible class
+of non-linear machine learners. They have been found to be quite
+effective as of late.
+
+Neural networks are composed of neurons. These neurons try to emulate
+biological neurons in the most metaphorical of senses. Given a set of
+inputs they produce an output.
+
+
+
+## Neurons
 
 
 
