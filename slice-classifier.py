@@ -78,8 +78,11 @@ net.train(train, valid, algo='layerwise', max_updates=mupdates, patience=1)
 net.train(train, valid, algo='rprop',     max_updates=mupdates, patience=1)
 
 print "Learner on the test set"
-print "%s / %s " % (sum(net.classify(test[0]) == test[1]),len(test[1]))
-print collections.Counter(net.classify(test[0]))
+classify = net.classify(test[0])
+print "%s / %s " % (sum(classify == test[1]),len(test[1]))
+print collections.Counter(classify)
+print theautil.classifications(classify,test[1])
+
 
 print net.layers[2].params[0].get_value()
 print net.layers[2].params[0].get_value()
@@ -90,3 +93,14 @@ def real_function(pt):
     in1 = in_circle(pt[0],pt[1],0.5,0.5,rad)
     in2 = in_circle(pt[0],pt[1],0.51,0.51,rad)
     return in1 ^ in2
+
+print "And now on more unseen data that isn't 50/50"
+
+bigtest = np.random.uniform(size=(3000,2)).astype(np.float32)
+biglab = np.apply_along_axis(real_function,1,bigtest).astype(np.int32)
+net.classify(bigtest)
+
+classify = net.classify(bigtest)
+print "%s / %s " % (sum(classify == biglab),len(biglab))
+print collections.Counter(classify)
+print theautil.classifications(classify,biglab)
