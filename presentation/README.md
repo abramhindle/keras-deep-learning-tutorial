@@ -124,4 +124,4 @@ $ git push heroku
 
 MIT licensed
 
-Copyright (C) 2016 Ben Zittlau, http://benzittlau.com
+Copyright (C) 2016 Ben Zittlau, http://benzittlau.com, and Abram Hindle, http://softwareprocess.es/

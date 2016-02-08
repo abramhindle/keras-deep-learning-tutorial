@@ -79,6 +79,8 @@ we use voting of the 3 neighbors instead.
 # Intro
 ### An example classifier: 1-NN
 
+[src/slice-classifier.py](src/slice-classifier.py)
+
 ``` python
 def euclid(pt1,pt2):
     return sum([ (pt1[i] - pt2[i])**2 for i in range(0,len(pt1)) ])
@@ -87,12 +89,13 @@ def oneNN(data,labels):
     def func(input):
         distance = None
         label = None
-        for i in range(0,len(data))
+        for i in range(0,len(data)):
             d = euclid(input,data[i])
             if distance == None or d < distance:
                 distance = d
                 label = labels[i]
         return label
+    return func
 ```
 
 

@@ -69,6 +69,27 @@ print "My classifier!"
 print "%s / %s " % (sum(myclasses == test[1]),len(test[1]))
 print theautil.classifications(myclasses,test[1])
 
+def euclid(pt1,pt2):
+    return sum([ (pt1[i] - pt2[i])**2 for i in range(0,len(pt1)) ])
+
+def oneNN(data,labels):
+    def func(input):
+        distance = None
+        label = None
+        for i in range(0,len(data)):
+            d = euclid(input,data[i])
+            if distance == None or d < distance:
+                distance = d
+                label = labels[i]
+        return label
+    return func
+
+learner = oneNN(train[0],train[1])
+
+oneclasses = np.apply_along_axis(learner,1,test[0])
+print "1-NN classifier!"
+print "%s / %s " % (sum(oneclasses == test[1]),len(test[1]))
+print theautil.classifications(oneclasses,test[1])
 
 
 
