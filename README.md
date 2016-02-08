@@ -165,5 +165,31 @@ inputs they produce an output.
 
 ## Neurons
 
+Neurons have functions.
+
+* Rectified Linear Units have been shown to train quite well and
+  achieve good results. By they aren't easier to differentiate.
+  f(x) = max(0,x)
+* Sigmoid functions are slow and were the classical neural network
+  neuron, but have fallen out of favour. They will work when nothing
+  else will. f(x) = 1/(1 + e^-x)
+* Softplus is a RELU that is slower to compute but differentiable.
+  f(x) = ln(1 + e^x)
 
 
+
+## Neurons
+
+![Rectifier and Sigmoid and Softplus](images/Rectifier_and_softplus_functions.svg)
+
+
+
+
+## Neurons
+
+The inputs to a neural network? The outputs of connected nodes times
+their weight + a bias.
+
+neuron(inputs) = neuron_f( sum(weights * inputs) + bias  )
+
+![Neuron example](images/neuron.png)
