@@ -1,5 +1,10 @@
 # Deep Learning Tutorial
-Abram Hindle
+
+#### Abram Hindle
+#### <abram.hindle@ualberta.ca>
+#### http://softwareprocess.ca/
+
+Slides stolen gracefully from Ben Zittlau
 
 
 
@@ -38,7 +43,13 @@ Building a function from data to classify, predict, group, or represent data.
 
 Imagine we have this data:
 
-![2 crescent slices](images/slice.png "A function we want to learn f(x,y) -> z where z is red")
+![2 crescent slices](images/slice.png "A function we want to learn
+ f(x,y) -> z where z is red")
+
+
+
+# Intro
+### Machine Learning
 
 There are a few kinds of tasks or functions that could help us here.
 
@@ -50,10 +61,39 @@ There are a few kinds of tasks or functions that could help us here.
 * Representation: Learn a smaller representation of the input
   data. E.g. we have 300 features lets describe them in a 128bit hash.
 
+
+
+# Intro 
 ### An example classifier
 
-1-NN: 1 Nearest Neighbor. Given the data, we produce a function that
-outputs the CLASS of the nearest neighbor to the input data.
+1-NN: 1 Nearest Neighbor.
+
+Given the data, we produce a function that
+outputs the CLASS of the nearest neighbour to the input data.
+
+Whoever is closer, is the class. 3-NN is 3-nearest neighbors whereby
+we use voting of the 3 neighbors instead.
+
+
+
+# Intro
+### An example classifier: 1-NN
+
+``` python
+def euclid(pt1,pt2):
+    return sum([ (pt1[i] - pt2[i])**2 for i in range(0,len(pt1)) ])
+
+def oneNN(data,labels):
+    def func(input):
+        distance = None
+        label = None
+        for i in range(0,len(data))
+            d = euclid(input,data[i])
+            if distance == None or d < distance:
+                distance = d
+                label = labels[i]
+        return label
+```
 
 
 
