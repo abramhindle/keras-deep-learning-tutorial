@@ -10,6 +10,7 @@ Slide content under CC-BY-SA 4.0 and MIT License for source
 code. Slide Source code is MIT License as well.
 
 
+
 ## Start
 
 First off lets get a useful Python environment!
@@ -24,6 +25,11 @@ pip install bpython
 otherwise consider provisioning a vagrant box defined by the
 vagrantfile in the vagrant/ directory.
 
+Get a recent version of this presentation:
+
+```
+git clone https://github.com/abramhindle/theanets-tutorial.git
+```
 
 
 ## Data
@@ -193,3 +199,25 @@ their weight + a bias.
 neuron(inputs) = neuron_f( sum(weights * inputs) + bias  )
 
 ![Neuron example](images/neuron.png)
+
+
+
+## Multi-layer perceptron
+
+Single hidden layer neural network.
+
+![Multi-layer perceptron](images/20160208141015.png)
+
+
+
+
+## Deep Learning
+
+![Deep network, multiple layers](images/20160208141143.png)
+
+
+
+
+## Search
+
+[Different Search Parameters](http://www.robertsdionne.com/bouncingball/)
