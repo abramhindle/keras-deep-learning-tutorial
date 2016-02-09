@@ -77,10 +77,9 @@ def make_dataset1():
     powers   = min_max_scale(power(0.1,size=bsize)) #power law
     norms    = min_max_scale(normal(size=bsize))    #normal
     uniforms = min_max_scale(uniform(size=bsize))    #uniform
-
     # add our data together
     data = np.concatenate((lns,powers,norms,uniforms))
-
+    
     # concatenate our labels
     labels = np.concatenate((
         (np.repeat(LOGNORMAL,bsize)),
@@ -88,13 +87,13 @@ def make_dataset1():
         (np.repeat(NORM,bsize)),
         (np.repeat(UNIFORM,bsize))))
     tsize = len(labels)
-
+    
     # make sure dimensionality and types are right
     data = data.reshape((len(data),1))
     data = data.astype(np.float32)
     labels = labels.astype(np.int32)
     labels = labels.reshape((len(data),))
-
+    
     return data, labels, tsize
 
 # this will be the training data and validation data
@@ -174,16 +173,16 @@ def make_widedataset(width=width):
     wpowers   = min_max_scale(power(0.1,size=(bsize,width))) #power law
     wnorms    = min_max_scale(normal(size=(bsize,width)))    #normal
     wuniforms = min_max_scale(uniform(size=(bsize,width)))    #uniform
-
+    
     wdata = np.concatenate((wlns,wpowers,wnorms,wuniforms))
-
+    
     # concatenate our labels
     wlabels = np.concatenate((
         (np.repeat(LOGNORMAL,bsize)),
         (np.repeat(POWER,bsize)),
         (np.repeat(NORM,bsize)),
         (np.repeat(UNIFORM,bsize))))
-
+    
     joint_shuffle(wdata,wlabels)
     wdata = wdata.astype(np.float32)
     wlabels = wlabels.astype(np.int32)
@@ -248,8 +247,8 @@ print res
 res = swcnet.train(wtrain,wvalid, algo='rprop', patience=1, max_updates=mupdates)
 print res
 print "%s / %s " % (sum(swcnet.classify(wdata) == wlabels),tsize)
-print "%s / %s " % (sum(wcnet.classify(test_wdata) == test_wlabels),tsize)
-print collections.Counter(wcnet.classify(test_wdata))
+print "%s / %s " % (sum(swcnet.classify(test_wdata) == test_wlabels),tsize)
+print collections.Counter(swcnet.classify(test_wdata))
 
 print "That was an improvement!"
 
