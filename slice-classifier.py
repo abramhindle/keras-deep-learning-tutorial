@@ -91,7 +91,11 @@ print "1-NN classifier!"
 print "%s / %s " % (sum(oneclasses == test[1]),len(test[1]))
 print theautil.classifications(oneclasses,test[1])
 
-
+print '''
+########################################################################
+# Part 3. Let's start using neural networks!
+########################################################################
+'''
 
 # try different combos here
 net = theanets.Classifier([2,3,2])

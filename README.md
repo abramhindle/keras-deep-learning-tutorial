@@ -210,6 +210,13 @@ Single hidden layer neural network.
 
 
 
+## Deep Learning
+
+There's nothing particularly crazy about deep learning other than it has more hidden layers.
+
+These hidden layers allow it to compute state and address the intricacies of complex functions. But each hidden layer adds a lot of search space.
+
+
 
 ## Deep Learning
 
@@ -220,4 +227,29 @@ Single hidden layer neural network.
 
 ## Search
 
+How do we find the different weights?
+
+Well we need to search a large space. A 2x3x2 network will have 2*3*2
+weights + 5 biases (3 hidden, 2 output) resulting in 17
+parameters. That's already a large search space.
+
+Most search algorithms measure their error at a certain point
+(difference between prediction and actual) and then choose a direction
+in their search space to travel. They do this by sampling points
+around themselves in order to compute a gradient or slope and then
+follow the slope around.
+
+Here's a 3D demo of different search algorithms.
+
 [Different Search Parameters](http://www.robertsdionne.com/bouncingball/)
+
+
+
+## Let's deep learn on our problem
+
+![2 crescent slices](images/slice.png "A function we want to learn
+ f(x,y) -> z where z is red")
+
+Please open [slice-classifier](./src/slice-classifier.py) and a python
+interpreter such as bpython. Search for Part 3 around line 100.
+
