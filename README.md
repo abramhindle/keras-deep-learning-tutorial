@@ -93,7 +93,7 @@ There are a few kinds of tasks or functions that could help us here.
   function with a continuous or numerous discrete outputs it might be
   appropriate.
 * Representation: Learn a smaller representation of the input
-  data. E.g. we have 300 features lets describe them in a 128bit hash.
+  data. E.g. we have 300 features lets describe them in a 128-bit hash.
 
 
 
@@ -117,7 +117,7 @@ we use voting of the 3 neighbors instead.
   scale and continue to work?
 
 * 1-NN doesn't work for all problems. And it is dependent on linear
-  relattionships.
+  relationships.
 
 * What if our problem is non-linear?
 
@@ -127,7 +127,7 @@ we use voting of the 3 neighbors instead.
 
 * Neural networks are popular
    * Creating AI for Go
-   * Labelling Images with cats and dogs
+   * Labeling Images with cats and dogs
    * Speech Recognition
    * Text summarization
    * [Guitar Transcription](https://peerj.com/preprints/1193.pdf)
