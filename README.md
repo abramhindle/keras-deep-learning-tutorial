@@ -34,11 +34,6 @@ git clone https://github.com/abramhindle/theanets-tutorial.git
 VM available at http://archive.org/details/theanetstutorial
 
 
-## Data
-We're planning on using some data. TBD.
-
-
-
 
 # Intro
 ### What is machine learning?
@@ -182,7 +177,7 @@ Thus we showed a simple learner that classifies data.
    * Speech Recognition
    * Text summarization
    * [Guitar Transcription](https://peerj.com/preprints/1193.pdf)
-   * [Learn audio from video](http://softwareprocess.es/blog/blog/2015/08/10/deep-learning-bitmaps-to-pcm/)
+   * Learn audio from video[1](https://archive.org/details/DeepLearningBitmaptoPCM/)[2](http://softwareprocess.es/blog/blog/2015/08/10/deep-learning-bitmaps-to-pcm/)
 
 * Neural networks can not only classify, but they can create content,
   they can have complicated outputs.
