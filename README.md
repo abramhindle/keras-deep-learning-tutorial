@@ -49,6 +49,22 @@ Building a function from data to classify, predict, group, or represent data.
 
 
 # Intro
+### Machine Learning
+
+There are a few kinds of tasks or functions that could help us here.
+
+* Classification: given some input, predict the class that it belongs
+  to. Given a point is it in the red or in the blue?
+* Regression: Given a point what will its value be? In the case of a
+  function with a continuous or numerous discrete outputs it might be
+  appropriate.
+* Representation: Learn a smaller representation of the input
+  data. E.g. we have 300 features lets describe them in a 128-bit hash.
+
+
+
+
+# Intro
 ### Motivational Example
 
 Imagine we have this data:
@@ -82,20 +98,6 @@ My classifier!
 ```
 
 
-# Intro
-### Machine Learning
-
-There are a few kinds of tasks or functions that could help us here.
-
-* Classification: given some input, predict the class that it belongs
-  to. Given a point is it in the red or in the blue?
-* Regression: Given a point what will its value be? In the case of a
-  function with a continuous or numerous discrete outputs it might be
-  appropriate.
-* Representation: Learn a smaller representation of the input
-  data. E.g. we have 300 features lets describe them in a 128-bit hash.
-
-
 
 # Intro 
 ### An example classifier
@@ -107,36 +109,6 @@ outputs the CLASS of the nearest neighbour to the input data.
 
 Whoever is closer, is the class. 3-NN is 3-nearest neighbors whereby
 we use voting of the 3 neighbors instead.
-
-
-
-
-# Intro
-
-* That's really interesting performance and it worked but will it
-  scale and continue to work?
-
-* 1-NN doesn't work for all problems. And it is dependent on linear
-  relationships.
-
-* What if our problem is non-linear?
-
-
-
-# Intro
-
-* Neural networks are popular
-   * Creating AI for Go
-   * Labeling Images with cats and dogs
-   * Speech Recognition
-   * Text summarization
-   * [Guitar Transcription](https://peerj.com/preprints/1193.pdf)
-   * [Learn audio from video](http://softwareprocess.es/blog/blog/2015/08/10/deep-learning-bitmaps-to-pcm/)
-
-* Neural networks can not only classify, but they can create content,
-  they can have complicated outputs.
-
-* Neural networks are generative!
 
 
 
@@ -186,6 +158,37 @@ distance and the dataset is really quite biased to the positive
 classes.
 
 Thus we showed a simple learner that classifies data.
+
+
+
+
+# Intro
+
+* That's really interesting performance and it worked but will it
+  scale and continue to work?
+
+* 1-NN doesn't work for all problems. And it is dependent on linear
+  relationships.
+
+* What if our problem is non-linear?
+
+
+
+# Intro
+
+* Neural networks are popular
+   * Creating AI for Go
+   * Labeling Images with cats and dogs
+   * Speech Recognition
+   * Text summarization
+   * [Guitar Transcription](https://peerj.com/preprints/1193.pdf)
+   * [Learn audio from video](http://softwareprocess.es/blog/blog/2015/08/10/deep-learning-bitmaps-to-pcm/)
+
+* Neural networks can not only classify, but they can create content,
+  they can have complicated outputs.
+
+* Neural networks are generative!
+
 
 
 
@@ -340,7 +343,5 @@ def min_max_scale(data):
 ## Experiment 4
 
 * Given 40 histogrammed samples what distribution does it come from?
-
-
 
 
