@@ -31,6 +31,8 @@ Get a recent version of this presentation:
 git clone https://github.com/abramhindle/theanets-tutorial.git
 ```
 
+VM available at http://archive.org/details/theanetstutorial
+
 
 ## Data
 We're planning on using some data. TBD.
