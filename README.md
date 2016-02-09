@@ -108,6 +108,37 @@ we use voting of the 3 neighbors instead.
 
 
 
+
+# Intro
+
+* That's really interesting performance and it worked but will it
+  scale and continue to work?
+
+* 1-NN doesn't work for all problems. And it is dependent on linear
+  relattionships.
+
+* What if our problem is non-linear?
+
+
+
+# Intro
+
+* Neural networks are popular
+   * Creating AI for Go
+   * Labelling Images with cats and dogs
+   * Speech Recognition
+   * Text summarization
+   * [Guitar Transcription](https://peerj.com/preprints/1193.pdf)
+   * [Learn audio from video](http://softwareprocess.es/blog/blog/2015/08/10/deep-learning-bitmaps-to-pcm/)
+
+* Neural networks can not only classify, but they can create content,
+  they can have complicated outputs.
+
+* Neural networks are generative!
+
+
+
+
 # Intro
 ### An example classifier: 1-NN
 
@@ -252,4 +283,62 @@ Here's a 3D demo of different search algorithms.
 
 Please open [slice-classifier](./src/slice-classifier.py) and a python
 interpreter such as bpython. Search for Part 3 around line 100.
+
+
+
+
+## Now let's discuss posing problems for neural networks
+
+* Scaling inputs: Scaling can sometimes help, so can
+  standardization. This means constraining values or re-centering
+  them. It depends on your problem and it is worth trying.
+
+* E.g. min max scaling:
+
+``` python
+def min_max_scale(data):
+    '''scales data by minimum and maximum values between 0 and 1'''
+    dmin = np.min(data)
+    return (data - dmin)/(np.max(data) - dmin)
+```
+
+
+
+## The problem
+
+* [posing.py](src/posing.py) tries to show the problem of taking
+  random input data and determine what distribution it comes from.
+  That is what function can produce these random values.
+
+* Let's open up [posing.py](src/posing.py) and get an interpreter
+  going.
+
+
+
+## Experiment 1
+
+* Given 1 single sample what distribution does it come from?
+
+
+
+
+## Experiment 2
+
+* Given 40 samples what distribution does it come from?
+
+
+
+
+## Experiment 3
+
+* Given 40 sorted samples what distribution does it come from?
+
+
+
+## Experiment 4
+
+* Given 40 histogrammed samples what distribution does it come from?
+
+
+
 
