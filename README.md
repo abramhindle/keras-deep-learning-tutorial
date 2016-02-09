@@ -10,6 +10,7 @@ Slide content under CC-BY-SA 4.0 and MIT License for source
 code. Slide Source code is MIT License as well.
 
 
+
 ## Start
 
 First off lets get a useful Python environment!
@@ -24,6 +25,13 @@ pip install bpython
 otherwise consider provisioning a vagrant box defined by the
 vagrantfile in the vagrant/ directory.
 
+Get a recent version of this presentation:
+
+```
+git clone https://github.com/abramhindle/theanets-tutorial.git
+```
+
+VM available at http://archive.org/details/theanetstutorial
 
 
 ## Data
@@ -85,7 +93,7 @@ There are a few kinds of tasks or functions that could help us here.
   function with a continuous or numerous discrete outputs it might be
   appropriate.
 * Representation: Learn a smaller representation of the input
-  data. E.g. we have 300 features lets describe them in a 128bit hash.
+  data. E.g. we have 300 features lets describe them in a 128-bit hash.
 
 
 
@@ -99,6 +107,37 @@ outputs the CLASS of the nearest neighbour to the input data.
 
 Whoever is closer, is the class. 3-NN is 3-nearest neighbors whereby
 we use voting of the 3 neighbors instead.
+
+
+
+
+# Intro
+
+* That's really interesting performance and it worked but will it
+  scale and continue to work?
+
+* 1-NN doesn't work for all problems. And it is dependent on linear
+  relationships.
+
+* What if our problem is non-linear?
+
+
+
+# Intro
+
+* Neural networks are popular
+   * Creating AI for Go
+   * Labeling Images with cats and dogs
+   * Speech Recognition
+   * Text summarization
+   * [Guitar Transcription](https://peerj.com/preprints/1193.pdf)
+   * [Learn audio from video](http://softwareprocess.es/blog/blog/2015/08/10/deep-learning-bitmaps-to-pcm/)
+
+* Neural networks can not only classify, but they can create content,
+  they can have complicated outputs.
+
+* Neural networks are generative!
+
 
 
 
@@ -193,3 +232,115 @@ their weight + a bias.
 neuron(inputs) = neuron_f( sum(weights * inputs) + bias  )
 
 ![Neuron example](images/neuron.png)
+
+
+
+## Multi-layer perceptron
+
+Single hidden layer neural network.
+
+![Multi-layer perceptron](images/20160208141015.png)
+
+
+
+## Deep Learning
+
+There's nothing particularly crazy about deep learning other than it has more hidden layers.
+
+These hidden layers allow it to compute state and address the intricacies of complex functions. But each hidden layer adds a lot of search space.
+
+
+
+## Deep Learning
+
+![Deep network, multiple layers](images/20160208141143.png)
+
+
+
+
+## Search
+
+How do we find the different weights?
+
+Well we need to search a large space. A 2x3x2 network will have 2*3*2
+weights + 5 biases (3 hidden, 2 output) resulting in 17
+parameters. That's already a large search space.
+
+Most search algorithms measure their error at a certain point
+(difference between prediction and actual) and then choose a direction
+in their search space to travel. They do this by sampling points
+around themselves in order to compute a gradient or slope and then
+follow the slope around.
+
+Here's a 3D demo of different search algorithms.
+
+[Different Search Parameters](http://www.robertsdionne.com/bouncingball/)
+
+
+
+## Let's deep learn on our problem
+
+![2 crescent slices](images/slice.png "A function we want to learn
+ f(x,y) -> z where z is red")
+
+Please open [slice-classifier](./src/slice-classifier.py) and a python
+interpreter such as bpython. Search for Part 3 around line 100.
+
+
+
+
+## Now let's discuss posing problems for neural networks
+
+* Scaling inputs: Scaling can sometimes help, so can
+  standardization. This means constraining values or re-centering
+  them. It depends on your problem and it is worth trying.
+
+* E.g. min max scaling:
+
+``` python
+def min_max_scale(data):
+    '''scales data by minimum and maximum values between 0 and 1'''
+    dmin = np.min(data)
+    return (data - dmin)/(np.max(data) - dmin)
+```
+
+
+
+## The problem
+
+* [posing.py](src/posing.py) tries to show the problem of taking
+  random input data and determine what distribution it comes from.
+  That is what function can produce these random values.
+
+* Let's open up [posing.py](src/posing.py) and get an interpreter
+  going.
+
+
+
+## Experiment 1
+
+* Given 1 single sample what distribution does it come from?
+
+
+
+
+## Experiment 2
+
+* Given 40 samples what distribution does it come from?
+
+
+
+
+## Experiment 3
+
+* Given 40 sorted samples what distribution does it come from?
+
+
+
+## Experiment 4
+
+* Given 40 histogrammed samples what distribution does it come from?
+
+
+
+
