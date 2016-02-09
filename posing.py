@@ -100,7 +100,7 @@ def make_dataset1():
 # this will be the training data and validation data
 data, labels, tsize = make_dataset1()
 
-# this is the test data, this is kept seperate to prove we can
+# this is the test data, this is kept separate to prove we can
 # actually work on the data we claim we can.
 #
 # Without test data, you might just have great performance on the
@@ -141,7 +141,7 @@ train, valid = split_validation(90, data, labels)
 print "We're building a RBM of 1 input layer node, 4 hidden layer nodes, and an output layer of 4 nodes. The output layer has 4 nodes because we have 4 classes that the neural network will output."
 cnet = theanets.Classifier([1,4,4])
 cnet.train(train,valid, algo='layerwise', patience=1, max_updates=mupdates)
-cnet.train(train,valid, algo='rprop', patience=10, max_updates=mupdates)
+cnet.train(train,valid, algo='rprop', patience=1, max_updates=mupdates)
 
 print "%s / %s " % (sum(cnet.classify(data) == labels),tsize)
 print "%s / %s " % (sum(cnet.classify(test_data) == test_labels),tsize)
@@ -152,7 +152,7 @@ print "For %s we get %s which is interpreted as class: %s -- but it was %s" % (d
 
 
 # now that's kind of interesting, an accuracy of .3 to .5 max
-# still pretty innaccurate, but 1 sample might never be enough.
+# still pretty inaccurate, but 1 sample might never be enough.
 
 print "We could train longer and we might get better results, but there's ambiguity in each. As a human we might have a hard time determining them."
 
@@ -315,5 +315,5 @@ print res
 print "%s / %s " % (sum(bnet.classify(bdata) == blabels),tsize)
 print "%s / %s " % (sum(bnet.classify(test_bdata) == test_blabels),tsize)
 classify_test(bnet)
-# somtimes lognormal doesn't show up so well -- it can look like a powerlaw
+# sometimes lognormal doesn't show up so well -- it can look like a powerlaw
 # so after binning I have to say it is far more robust than before
