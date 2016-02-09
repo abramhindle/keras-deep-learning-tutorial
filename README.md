@@ -342,3 +342,37 @@ def min_max_scale(data):
 * Given 40 histogrammed samples what distribution does it come from?
 
 
+
+## Representation: Inputs
+
+* For discrete values consider discrete inputs neurons. E.g. if you have 3 letters are your input you should have 3 * 26 input numerous. Each neuron is "one-hot" -- 1 neuron is set to 1 to indicate that 1 discerete value. An input of AAA would be: 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  * ZZZ would be 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1
+
+
+## Representation: Inputs
+
+* For groups of elements consider representing them as their counts.
+* E.g. 3 cats, 4 dogs, 1 car as: 3 4 1 on 3 input neurons.
+* Neural networks work well with distributions as inputs and distributions as outputs
+
+
+
+## Representation: Words
+
+* Words can be represented as word counts where by your vector is the count of each word per document -- you might have a large vocabulary so watch out!
+* n-grams are popular too with one-hot encoding
+
+
+
+## Representaiton: Images
+
+* Each neuron can represent a pixel represented from 0 to 1
+* You can have images as output too!
+
+
+
+## Representation: Outputs
+
+* Do not ask the neural network to distingush discrete values on 1 neuron. Don't expect 1 neuron to output 0.25 for A and 0.9 for B and 1.0 for C. Use 3 neurons!
+* Distribution outputs are good
+* Interpretting the output is fine for regression problems
