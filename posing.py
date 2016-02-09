@@ -141,7 +141,7 @@ train, valid = split_validation(90, data, labels)
 print "We're building a RBM of 1 input layer node, 4 hidden layer nodes, and an output layer of 4 nodes. The output layer has 4 nodes because we have 4 classes that the neural network will output."
 cnet = theanets.Classifier([1,4,4])
 cnet.train(train,valid, algo='layerwise', patience=1, max_updates=mupdates)
-cnet.train(train,valid, algo='rprop', patience=10, max_updates=mupdates)
+cnet.train(train,valid, algo='rprop', patience=1, max_updates=mupdates)
 
 print "%s / %s " % (sum(cnet.classify(data) == labels),tsize)
 print "%s / %s " % (sum(cnet.classify(test_data) == test_labels),tsize)
