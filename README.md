@@ -33,6 +33,8 @@ git clone https://github.com/abramhindle/theanets-tutorial.git
 
 VM available at http://archive.org/details/theanetstutorial
 
+Slides at http://softwareprocess.es/2016/theanets-tutorial/presentation/
+
 
 
 # Intro
