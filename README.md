@@ -349,6 +349,7 @@ def min_max_scale(data):
   * ZZZ would be 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1
 
 
+
 ## Representation: Inputs
 
 * For groups of elements consider representing them as their counts.
@@ -376,3 +377,21 @@ def min_max_scale(data):
 * Do not ask the neural network to distingush discrete values on 1 neuron. Don't expect 1 neuron to output 0.25 for A and 0.9 for B and 1.0 for C. Use 3 neurons!
 * Distribution outputs are good
 * Interpretting the output is fine for regression problems
+
+
+
+## References
+
+* [Theanets Documentation](https://theanets.readthedocs.org/en/stable/)
+* [A Practical Guide to TrainingRestricted Boltzmann Machines](https://www.cs.toronto.edu/~hinton/absps/guideTR.pdf)
+* [MLP](http://deeplearning.net/tutorial/mlp.html#mlp)
+* [Deep Learning Tutorials](http://www.iro.umontreal.ca/~pift6266/H10/notes/deepintro.html)
+* [Deep Learning Tutorials](http://deeplearning.net/tutorial/)
+* [Coursera: Hinton's Neural Networks for Machine Learning](https://www.coursera.org/course/neuralnets)
+* [The Next Generation of Neural Networks](https://www.youtube.com/watch?v=AyzOUbkUf3M)
+* [Geoffrey Hinton: "Introduction to Deep Learning & Deep Belief Nets"](https://www.youtube.com/watch?v=GJdWESd543Y)
+* Bengio's Deep Learning
+  [(1)](https://www.youtube.com/watch?v=JuimBuvEWBg)[(2)](https://www.youtube.com/watch?v=Fl-W7_z3w3o)
+* [Nvidia's Deep Learning tutorials](https://developer.nvidia.com/deep-learning-courses
+)
+* [Udacity Deep Learning MOOC](https://www.udacity.com/course/deep-learning--ud730)
