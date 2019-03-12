@@ -24,7 +24,7 @@
 # SOFTWARE.
 
 # first off we load up some modules we want to use
-import theanets
+import keras
 import scipy
 import math
 import numpy as np
@@ -32,6 +32,12 @@ import numpy.random as rnd
 import logging
 import sys
 from numpy.random import power, normal, lognormal, uniform
+from keras.models import Sequential
+from keras.layers.core import Dense
+from keras.optimizers import SGD
+from keras.optimizers import Adam
+from sklearn.preprocessing import OneHotEncoder
+import theautil
 
 # What are we going to do?
 # - we're going to generate data derived from 4 different distributions
@@ -62,13 +68,13 @@ POWER=1
 NORM=2
 UNIFORM=3
 
-print '''
+print('''
 ########################################################################
 # Experiment 1: can we classify single samples?
 #
 #
 #########################################################################
-'''
+''')
 
 def make_dataset1():
     '''Make a dataset of single samples with labels from which distribution they come from'''
@@ -134,36 +140,53 @@ def split_validation(percent, data, labels):
     return ((tdata,tlabels),(vdata,vlabels))
 
 # make a validation set from the train set
-train, valid = split_validation(90, data, labels)
+train1, valid1 = split_validation(90, data, labels)
+
+
+print(train1[0].shape)
+print(train1[1].shape)
+
+enc1 = OneHotEncoder(handle_unknown='ignore')
+enc1.fit(train1[1].reshape(len(train1[1]),1))
+train1_y = enc1.transform(train1[1].reshape(len(train1[1]),1))
+print(train1_y.shape)
+valid1_y = enc1.transform(valid1[1].reshape(len(valid1[1]),1))
+print(valid1_y.shape)
+test1_y = enc1.transform(test_labels.reshape(len(test_labels),1))
+print(test1_y.shape)
 
 # build our classifier
-print "We're building a RBM of 1 input layer node, 4 hidden layer nodes, and an output layer of 4 nodes. The output layer has 4 nodes because we have 4 classes that the neural network will output."
-cnet = theanets.Classifier([1,4,4])
-cnet.train(train,valid, algo='layerwise', patience=1, max_updates=mupdates)
-cnet.train(train,valid, algo='rprop', patience=1, max_updates=mupdates)
 
-print "%s / %s " % (sum(cnet.classify(data) == labels),tsize)
-print "%s / %s " % (sum(cnet.classify(test_data) == test_labels),tsize)
+print("We're building a MLP of 1 input layer node, 4 hidden layer nodes, and an output layer of 4 nodes. The output layer has 4 nodes because we have 4 classes that the neural network will output.")
+cnet = Sequential()
+cnet.add(Dense(4,input_shape=(1,),activation="sigmoid"))
+cnet.add(Dense(4,activation="softmax"))
+copt = SGD(lr=0.1)
+# opt = Adam(lr=0.1)
+cnet.compile(loss="categorical_crossentropy", optimizer=copt, metrics=["accuracy"])
+history = cnet.fit(train1[0], train1_y, validation_data=(valid1[0], valid1_y),
+	            epochs=100, batch_size=16)
 
-# so what does that output layer look like?
-print "The output layer looks something like:"
-print "For %s we get %s which is interpreted as class: %s -- but it was %s" % (data[0:1],cnet.predict_proba(data[0:1]),cnet.classify(data[0:1]),labels[0])
-
+#score = cnet.evaluate(test_data, test_labels)
+#print("Scores: %s" % score)
+classify = cnet.predict_classes(test_data)
+print(theautil.classifications(classify,test_labels))
+score = cnet.evaluate(test_data, test1_y)
+print("Scores: %s" % score)
 
 # now that's kind of interesting, an accuracy of .3 to .5 max
 # still pretty inaccurate, but 1 sample might never be enough.
 
-print "We could train longer and we might get better results, but there's ambiguity in each. As a human we might have a hard time determining them."
+print("We could train longer and we might get better results, but there's ambiguity in each. As a human we might have a hard time determining them.")
 
-print '''
+print('''
 ########################################################################
 # Experiment 2: can we classify a sample of data?
 #
 #
 #########################################################################
-'''
-
-print "In this example we're going to input 40 values from a single distribution, and we'll see if we can classify the distribution."
+''')
+print("In this example we're going to input 40 values from a single distribution, and we'll see if we can classify the distribution.")
 
 width=40
 
@@ -196,81 +219,106 @@ test_wdata, test_wlabels = make_widedataset()
 
 # split out our validation set
 wtrain, wvalid = split_validation(90, wdata, wlabels)
-print "At this point we have a weird decision to make, how many neurons in the hidden layer?"
+print("At this point we have a weird decision to make, how many neurons in the hidden layer?")
 
-wcnet = theanets.Classifier([width,width/4,4]) #267
+encwc = OneHotEncoder(handle_unknown='ignore')
+encwc.fit(wtrain[1].reshape(len(wtrain[1]),1))
+wtrain_y = encwc.transform(wtrain[1].reshape(len(wtrain[1]),1))
+wvalid_y = encwc.transform(wvalid[1].reshape(len(wvalid[1]),1))
+wtest_y  = encwc.transform(test_wlabels.reshape(len(test_wlabels),1))
+
+# wcnet = theanets.Classifier([width,width/4,4]) #267
+wcnet = Sequential()
+wcnet.add(Dense(width,input_shape=(width,),activation="sigmoid"))
+wcnet.add(Dense(int(width/4),activation="sigmoid"))
+wcnet.add(Dense(4,activation="softmax"))
+wcnet.compile(loss="categorical_crossentropy", optimizer=SGD(lr=0.1), metrics=["accuracy"])
+history = wcnet.fit(wtrain[0], wtrain_y, validation_data=(wvalid[0], wvalid_y),
+	            epochs=100, batch_size=16)
+
+
+classify = wcnet.predict_classes(test_wdata)
+print(theautil.classifications(classify,test_wlabels))
+score = wcnet.evaluate(test_wdata, wtest_y)
+print("Scores: %s" % score)
+
 # # You could try some of these alternative setups
 # 
-# wcnet = theanets.Classifier([width,4]) #248
-# wcnet = theanets.Classifier([width,width/2,4]) #271
-# wcnet = theanets.Classifier([width,width,4]) #289
-# wcnet = theanets.Classifier([width,width*2,4]) #292
-# wcnet = theanets.Classifier([width,width/2,width/4,4]) #270
-# wcnet = theanets.Classifier([width,width/2,width/4,width/8,width/16,4]) #232
-# wcnet = theanets.Classifier([width,width*8,4]) #304
+# [width,4]) #248
+# [width,width/2,4]) #271
+# [width,width,4]) #289
+# [width,width*2,4]) #292
+# [width,width/2,width/4,4]) #270
+# [width,width/2,width/4,width/8,width/16,4]) #232
+# [width,width*8,4]) #304
 
+print("Ok that was neat, it definitely worked better, it had more data though.")
 
-res = wcnet.train(wtrain,wvalid, algo='layerwise', patience=1, max_updates=mupdates)
-print res
-res = wcnet.train(wtrain,wvalid, algo='rprop',max_updates=mupdates, patience=1)
-print res
-
-print "%s / %s " % (sum(wcnet.classify(wdata) == wlabels),tsize)
-import collections
-print collections.Counter(wcnet.classify(wdata))
-
-print "%s / %s " % (sum(wcnet.classify(test_wdata) == test_wlabels),tsize)
-print collections.Counter(wcnet.classify(test_wdata))
-
-print "Ok that was neat, it definitely worked better, it had more data though."
-
-print "But what if we help it out, and we sort the values so that the first and last bins are always the min and max values?"
+print("But what if we help it out, and we sort the values so that the first and last bins are always the min and max values?")
 
 # now lets input sorted values
 
-print '''
+print('''
 ########################################################################
 # Experiment 3: can we classify a SORTED sample of data?
 #
 #
 #########################################################################
-'''
+''')
 
 
-print "Sorting the data"
+print("Sorting the data")
 wdata.sort(axis=1)
 test_wdata.sort(axis=1)
 
-swcnet = theanets.Classifier([width,width/2,4])
-res = swcnet.train(wtrain,wvalid, algo='layerwise', patience=1, max_updates=mupdates)
-print res
-res = swcnet.train(wtrain,wvalid, algo='rprop', patience=1, max_updates=mupdates)
-print res
-print "%s / %s " % (sum(swcnet.classify(wdata) == wlabels),tsize)
-print "%s / %s " % (sum(swcnet.classify(test_wdata) == test_wlabels),tsize)
-print collections.Counter(swcnet.classify(test_wdata))
 
-print "That was an improvement!"
+swcnet = Sequential()
+swcnet.add(Dense(width,input_shape=(width,),activation="sigmoid"))
+swcnet.add(Dense(int(width/4),activation="sigmoid"))
+swcnet.add(Dense(4,activation="softmax"))
+swcnet.compile(loss="categorical_crossentropy", optimizer=SGD(lr=0.1), metrics=["accuracy"])
+history = swcnet.fit(wtrain[0], wtrain_y, validation_data=(wvalid[0], wvalid_y),
+	            epochs=100, batch_size=16)
 
-print "What if we add binning, where by we classify the histogram?"
+
+classify = swcnet.predict_classes(test_wdata)
+print(theautil.classifications(classify,test_wlabels))
+score = swcnet.evaluate(test_wdata, wtest_y)
+print("Scores: %s" % score)
+
+
+# 
+# swcnet = theanets.Classifier([width,width/2,4])
+# res = swcnet.train(wtrain,wvalid, algo='layerwise', patience=1, max_updates=mupdates)
+# print(res)
+# res = swcnet.train(wtrain,wvalid, algo='rprop', patience=1, max_updates=mupdates)
+# print(res)
+# print("%s / %s " % (sum(swcnet.classify(wdata) == wlabels),tsize))
+# print("%s / %s " % (sum(swcnet.classify(test_wdata) == test_wlabels),tsize))
+# print(collections.Counter(swcnet.classify(test_wdata)))
+#
+
+print("That was an improvement!")
+
+print("What if we add binning, where by we classify the histogram?")
 
 # a little better
 
-print '''
+print('''
 ########################################################################
 # Experiment 4: can we classify a discretized histogram of sample data?
 #
 #
 #########################################################################
 '''
-
+)
 # let's try actual binning
 
 
 def bin(row):
     return np.histogram(row,bins=len(row),range=(0.0,1.0))[0]/float(len(row))
 
-print "Apply the histogram to all the data rows"
+print("Apply the histogram to all the data rows")
 bdata = np.apply_along_axis(bin,1,wdata).astype(np.float32)
 blabels = wlabels
 
@@ -295,7 +343,7 @@ def classify_test(bnet,ntests=1000):
         blns_labels = np.repeat(enum,ntests)
         blns_labels.astype(np.int32)
         classification = bnet.classify(blns)
-        print "%s %s / %s ::: %s " % (name,sum(classification == blns_labels),ntests, collections.Counter(classification))
+        print("%s %s / %s ::: %s " % (name,sum(classification == blns_labels),ntests, collections.Counter(classification)))
 
 
 # train & valid
@@ -307,12 +355,12 @@ bnet = theanets.Classifier([width,width/2,4])
 
 # layerwise training (RBM)
 res = bnet.train(btrain,bvalid, algo='layerwise', patience=1, max_updates=mupdates)
-print res
+print(res)
 classify_test(bnet)
 res = bnet.train(btrain,bvalid, algo='rprop', patience=1, max_updates=mupdates)
-print res
-print "%s / %s " % (sum(bnet.classify(bdata) == blabels),tsize)
-print "%s / %s " % (sum(bnet.classify(test_bdata) == test_blabels),tsize)
+print(res)
+print("%s / %s " % (sum(bnet.classify(bdata) == blabels),tsize))
+print("%s / %s " % (sum(bnet.classify(test_bdata) == test_blabels),tsize))
 classify_test(bnet)
 # sometimes lognormal doesn't show up so well -- it can look like a powerlaw
 # so after binning I have to say it is far more robust than before
