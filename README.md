@@ -10,7 +10,6 @@ Slide content under CC-BY-SA 4.0 and MIT License for source
 code. Slide Source code is MIT License as well.
 
 
-
 ## Start
 
 First off lets get a useful Python environment!
@@ -18,22 +17,17 @@ First off lets get a useful Python environment!
 Please install theanets and bpython.
 
 `````
-pip install theanets
-pip install bpython
+pip install --user keras
+pip install --user tensorflow
+pip install --user scikit-learn
 `````
-
-otherwise consider provisioning a vagrant box defined by the
-vagrantfile in the vagrant/ directory.
 
 Get a recent version of this presentation:
 
 ```
-git clone https://github.com/abramhindle/theanets-tutorial.git
+git clone https://github.com/abramhindle/keras-deep-learning-tutorial.git
 ```
 
-VM available at http://archive.org/details/theanetstutorial
-
-Slides at http://softwareprocess.es/2016/theanets-tutorial/presentation/
 
 
 
