@@ -342,25 +342,37 @@ def classify_test(bnet,ntests=1000):
         blns = np.apply_along_axis(bin,1,lns).astype(np.float32)
         blns_labels = np.repeat(enum,ntests)
         blns_labels.astype(np.int32)
-        classification = bnet.classify(blns)
-        print("%s %s / %s ::: %s " % (name,sum(classification == blns_labels),ntests, collections.Counter(classification)))
-
+        classification = bnet.predict_classes(blns)
+        classify = theautil.classifications(classify,test_wlabels)
+        print("%s ::: %s -- %s" % (name,ntests, collections.Counter(classification),classify ))
 
 # train & valid
 btrain, bvalid = split_validation(90, bdata, blabels)
+
+encb = OneHotEncoder(handle_unknown='ignore')
+encb.fit(btrain[1].reshape(len(btrain[1]),1))
+btrain_y = encb.transform(btrain[1].reshape(len(btrain[1]),1))
+bvalid_y = encb.transform(bvalid[1].reshape(len(bvalid[1]),1))
+btest_y  = encb.transform(test_blabels.reshape(len(test_blabels),1))
+
+
+
 # similar network structure
-bnet = theanets.Classifier([width,width/2,4])
+# bnet = theanets.Classifier([width,width/2,4])
 
-# bnet = theanets.Classifier([width,32*width/2,4])
+bnet = Sequential()
+bnet.add(Dense(width,input_shape=(width,),activation="sigmoid"))
+bnet.add(Dense(int(width/4),activation="sigmoid"))
+bnet.add(Dense(4,activation="softmax"))
+bnet.compile(loss="categorical_crossentropy", optimizer=SGD(lr=0.1), metrics=["accuracy"])
+history = bnet.fit(btrain[0], btrain_y, validation_data=(bvalid[0], bvalid_y),
+	            epochs=100, batch_size=16)
 
-# layerwise training (RBM)
-res = bnet.train(btrain,bvalid, algo='layerwise', patience=1, max_updates=mupdates)
-print(res)
-classify_test(bnet)
-res = bnet.train(btrain,bvalid, algo='rprop', patience=1, max_updates=mupdates)
-print(res)
-print("%s / %s " % (sum(bnet.classify(bdata) == blabels),tsize))
-print("%s / %s " % (sum(bnet.classify(test_bdata) == test_blabels),tsize))
+classify = bnet.predict_classes(test_wdata)
+print(theautil.classifications(classify,test_wlabels))
+score = bnet.evaluate(test_wdata, wtest_y)
+print("Scores: %s" % score)
+
 classify_test(bnet)
 # sometimes lognormal doesn't show up so well -- it can look like a powerlaw
 # so after binning I have to say it is far more robust than before
