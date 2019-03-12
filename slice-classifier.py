@@ -22,7 +22,7 @@
 # SOFTWARE.
 
 # first off we load up some modules we want to use
-import theanets
+import keras
 import scipy
 import math
 import numpy as np
@@ -52,9 +52,9 @@ train, valid = theautil.split_validation(90, train_and_valid[0], train_and_valid
 def linit(x):
     return x.reshape((len(x),))
 
-train = (train[0],linit(train[1]))
-valid = (valid[0],linit(valid[1]))
-test  = (test[0] ,linit(test[1]))
+mltrain = (train[0],linit(train[1]))
+mlvalid = (valid[0],linit(valid[1]))
+mltest  = (test[0] ,linit(test[1]))
 
 # my solution
 def in_circle(x,y,cx,cy,radius):
@@ -64,10 +64,10 @@ def mysolution(pt,outer=0.3):
     return in_circle(pt[0],pt[1],0.5,0.5,outer) and not in_circle(pt[0],pt[1],0.5,0.5,0.1)
 
 # apply my classifier
-myclasses = np.apply_along_axis(mysolution,1,test[0])
-print "My classifier!"
-print "%s / %s " % (sum(myclasses == test[1]),len(test[1]))
-print theautil.classifications(myclasses,test[1])
+myclasses = np.apply_along_axis(mysolution,1,mltest[0])
+print("My classifier!")
+print("%s / %s " % (sum(myclasses == mltest[1]),len(mltest[1])))
+print(theautil.classifications(myclasses,mltest[1]))
 
 def euclid(pt1,pt2):
     return sum([ (pt1[i] - pt2[i])**2 for i in range(0,len(pt1)) ])
@@ -84,34 +84,57 @@ def oneNN(data,labels):
         return label
     return func
 
-learner = oneNN(train[0],train[1])
+learner = oneNN(mltrain[0],mltrain[1])
 
-oneclasses = np.apply_along_axis(learner,1,test[0])
-print "1-NN classifier!"
-print "%s / %s " % (sum(oneclasses == test[1]),len(test[1]))
-print theautil.classifications(oneclasses,test[1])
+oneclasses = np.apply_along_axis(learner,1,mltest[0])
+print("1-NN classifier!")
+print("%s / %s " % (sum(oneclasses == mltest[1]),len(mltest[1])))
+print(theautil.classifications(oneclasses,mltest[1]))
 
-print '''
+print('''
 ########################################################################
 # Part 3. Let's start using neural networks!
 ########################################################################
-'''
+''')
+
+from keras.models import Sequential
+from keras.layers.core import Dense
+from keras.optimizers import SGD
+from keras.optimizers import Adam
+from sklearn.preprocessing import OneHotEncoder
+
+enc = OneHotEncoder(handle_unknown='ignore')
+enc.fit(train[1])
+train_y = enc.transform(train[1])
+valid_y = enc.transform(valid[1])
+test_y = enc.transform(test[1])
+
+print(train[0].shape)
+print(train[1].shape)
+print(train_y.shape)
 
 # try different combos here
-net = theanets.Classifier([2,3,2])
-net.train(train, valid, algo='layerwise', max_updates=mupdates, patience=1)
-net.train(train, valid, algo='rprop',     max_updates=mupdates, patience=1)
+net = Sequential()
+net.add(Dense(16,input_shape=(2,),activation="sigmoid"))
+net.add(Dense(16,activation="relu"))
+net.add(Dense(2,activation="softmax"))
+opt = SGD(lr=0.1)
+# opt = Adam(lr=0.1)
+net.compile(loss="categorical_crossentropy", optimizer=opt, metrics=["accuracy"])
+history = net.fit(train[0], train_y, validation_data=(valid[0], valid_y),
+	            epochs=100, batch_size=16)
 
-print "Learner on the test set"
-classify = net.classify(test[0])
-print "%s / %s " % (sum(classify == test[1]),len(test[1]))
-print collections.Counter(classify)
-print theautil.classifications(classify,test[1])
+print("Learner on the test set")
+score = net.evaluate(test[0], test_y)
+print("Scores: %s" % score)
+predictit = net.predict(test[0])
+print(predictit.shape)
+print(predictit[0:10,])
+classify = net.predict_classes(test[0])
 
-
-print net.layers[2].params[0].get_value()
-print net.layers[2].params[0].get_value()
-
+print("%s / %s " % (np.sum(classify == mltest[1]),len(mltest[1])))
+print(collections.Counter(classify))
+print(theautil.classifications(classify,mltest[1]))
 
 def real_function(pt):
     rad = 0.1643167672515498
@@ -119,13 +142,12 @@ def real_function(pt):
     in2 = in_circle(pt[0],pt[1],0.51,0.51,rad)
     return in1 ^ in2
 
-print "And now on more unseen data that isn't 50/50"
+print("And now on more unseen data that isn't 50/50")
 
 bigtest = np.random.uniform(size=(3000,2)).astype(np.float32)
 biglab = np.apply_along_axis(real_function,1,bigtest).astype(np.int32)
-net.classify(bigtest)
 
-classify = net.classify(bigtest)
-print "%s / %s " % (sum(classify == biglab),len(biglab))
-print collections.Counter(classify)
-print theautil.classifications(classify,biglab)
+classify = net.predict_classes(bigtest)
+print("%s / %s " % (sum(classify == biglab),len(biglab)))
+print(collections.Counter(classify))
+print(theautil.classifications(classify,biglab))
