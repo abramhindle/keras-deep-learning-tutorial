@@ -38,6 +38,7 @@ from keras.optimizers import SGD
 from keras.optimizers import Adam
 from sklearn.preprocessing import OneHotEncoder
 import theautil
+import collections
 
 # What are we going to do?
 # - we're going to generate data derived from 4 different distributions
@@ -343,8 +344,8 @@ def classify_test(bnet,ntests=1000):
         blns_labels = np.repeat(enum,ntests)
         blns_labels.astype(np.int32)
         classification = bnet.predict_classes(blns)
-        classify = theautil.classifications(classify,test_wlabels)
-        print("%s ::: %s -- %s" % (name,ntests, collections.Counter(classification),classify ))
+        classified = theautil.classifications(classification,blns_labels)
+        print("Name:%s Tests:[%s] Count:%s -- Res:%s" % (name,ntests, collections.Counter(classification),classified ))
 
 # train & valid
 btrain, bvalid = split_validation(90, bdata, blabels)
@@ -368,9 +369,9 @@ bnet.compile(loss="categorical_crossentropy", optimizer=SGD(lr=0.1), metrics=["a
 history = bnet.fit(btrain[0], btrain_y, validation_data=(bvalid[0], bvalid_y),
 	            epochs=100, batch_size=16)
 
-classify = bnet.predict_classes(test_wdata)
-print(theautil.classifications(classify,test_wlabels))
-score = bnet.evaluate(test_wdata, wtest_y)
+classify = bnet.predict_classes(test_bdata)
+print(theautil.classifications(classify,test_blabels))
+score = bnet.evaluate(test_bdata, btest_y)
 print("Scores: %s" % score)
 
 classify_test(bnet)
