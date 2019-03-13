@@ -12,7 +12,7 @@ Vagrant.configure(2) do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "ubuntu/trusty64"
+  config.vm.box = "ubuntu/bionic64"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -44,7 +44,7 @@ Vagrant.configure(2) do |config|
   # Example for VirtualBox:
   #
   config.vm.provider "virtualbox" do |vb|
-    vb.name = "theanetstutorial"
+    vb.name = "kerasdltutorial"
     # Display the VirtualBox GUI when booting the machine
     vb.gui = true
   
@@ -66,18 +66,18 @@ Vagrant.configure(2) do |config|
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
-	apt-get install -y build-essential python-scipy python-numpy lubuntu-desktop gedit vim-gnome emacs python-pip git vim-gnome emacs wget curl
-	pip install theanets
-	pip install pyasn1
-	pip install ndg-httpsclient
-	pip install bpython
+	apt-get install -y build-essential python3-scipy python3-numpy lubuntu-desktop gedit vim-gnome emacs python-pip git vim-gnome emacs wget curl python3-pip
+	pip3 install keras tensorflow theano jupyter scikit-learn 
+	pip3 install pyasn1
+	pip3 install ndg-httpsclient
+	pip3 install bpython
         cd ~vagrant && \
-        git clone https://github.com/abramhindle/theanets-tutorial 
-	chown -R vagrant.vagrant theanets-tutorial
-        cd theanets-tutorial
+        git clone https://github.com/abramhindle/keras-deep-learning-tutorial
+	chown -R vagrant.vagrant keras-deep-learning-tutorial
+        cd keras-deep-learning-tutorial
         git pull origin master
         cd ~
         (mkdir ~vagrant/Desktop/ && chown vagrant.vagrant ~vagrant/Desktop/) || true
-        ln -sf ~vagrant/theanets-tutorial ~vagrant/Desktop/theanets-tutorial
+        ln -sf ~vagrant/keras-deep-learning-tutorial ~vagrant/Desktop/keras-deep-learning-tutorial
   SHELL
 end
