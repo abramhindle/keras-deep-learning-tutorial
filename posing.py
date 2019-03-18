@@ -377,3 +377,67 @@ print("Scores: %s" % score)
 classify_test(bnet)
 # sometimes lognormal doesn't show up so well -- it can look like a powerlaw
 # so after binning I have to say it is far more robust than before
+
+# let's tune
+print('''
+########################################################################
+# Experiment 5: Can we tune the binned data?
+#
+#
+#########################################################################
+'''
+)
+
+
+import Search
+
+
+# 1 repetition
+state = {"reps":1}
+params = {"batch_size":[1,4,8,16,32,64],
+          "lr":[1.0,0.1,0.01,0.001,0.0001],
+          "activation":["sigmoid","tanh","relu"],
+          "optimizer":["SGD","Adam"],
+          "epochs":[25],
+          "arch":[
+              [width],
+              [width,width],
+              [width,int(width/4)],
+              [2*width,width],
+              [int(width/4),int(width/8)],
+              [int(width/4)]]
+          }
+def get_optimizer(x):
+    if x == "Adam":
+        return Adam
+    return SGD
+    
+def f(state,params):
+    bnet = Sequential()
+    arch = params["arch"]
+    bnet.add(Dense(arch[0],input_shape=(width,),activation=params["activation"]))
+    for layer in arch[1:]:
+        bnet.add(Dense(int(layer),activation=params["activation"]))
+    bnet.add(Dense(4,activation="softmax"))
+    optimizer = get_optimizer(params["optimizer"])
+    bnet.compile(loss="categorical_crossentropy",
+                 optimizer=optimizer(lr=params["lr"]), metrics=["accuracy"])
+    history = bnet.fit(btrain[0], btrain_y,
+                       validation_data=(bvalid[0], bvalid_y),
+	               epochs=params["epochs"], batch_size=params["batch_size"])
+    classify = bnet.predict_classes(test_bdata)
+    print(theautil.classifications(classify,test_blabels))
+    score = bnet.evaluate(test_bdata, btest_y)
+    print("Scores: %s" % score)
+    return score[1]
+
+state["f"] = f
+random_results = Search.random_search(state,params,Search.heuristic_function,time=60)
+random_results   = sorted(random_results, key=lambda x: x['Score'])
+print(random_results[-1])
+
+
+           
+
+
+
