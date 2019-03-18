@@ -391,7 +391,6 @@ print('''
 
 import Search
 
-
 # 1 repetition
 state = {"reps":1}
 params = {"batch_size":[1,4,8,16,32,64],
