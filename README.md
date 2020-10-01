@@ -35,6 +35,9 @@ Then run the notebook.
 jupyter lab "./Keras Deep Learning Tutorial.ipynb"
 ```
 
+See it here:
+
+https://github.com/abramhindle/keras-deep-learning-tutorial/blob/master/Keras%20Deep%20Learning%20Tutorial.ipynb
 
 
 # Intro
