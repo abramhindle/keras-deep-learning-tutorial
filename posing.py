@@ -147,7 +147,7 @@ train1, valid1 = split_validation(90, data, labels)
 print(train1[0].shape)
 print(train1[1].shape)
 
-enc1 = OneHotEncoder(handle_unknown='ignore')
+enc1 = OneHotEncoder(handle_unknown='ignore',sparse=False)
 enc1.fit(train1[1].reshape(len(train1[1]),1))
 train1_y = enc1.transform(train1[1].reshape(len(train1[1]),1))
 print(train1_y.shape)
@@ -222,7 +222,7 @@ test_wdata, test_wlabels = make_widedataset()
 wtrain, wvalid = split_validation(90, wdata, wlabels)
 print("At this point we have a weird decision to make, how many neurons in the hidden layer?")
 
-encwc = OneHotEncoder(handle_unknown='ignore')
+encwc = OneHotEncoder(handle_unknown='ignore',sparse=True)
 encwc.fit(wtrain[1].reshape(len(wtrain[1]),1))
 wtrain_y = encwc.transform(wtrain[1].reshape(len(wtrain[1]),1))
 wvalid_y = encwc.transform(wvalid[1].reshape(len(wvalid[1]),1))
@@ -350,7 +350,7 @@ def classify_test(bnet,ntests=1000):
 # train & valid
 btrain, bvalid = split_validation(90, bdata, blabels)
 
-encb = OneHotEncoder(handle_unknown='ignore')
+encb = OneHotEncoder(handle_unknown='ignore',space=False)
 encb.fit(btrain[1].reshape(len(btrain[1]),1))
 btrain_y = encb.transform(btrain[1].reshape(len(btrain[1]),1))
 bvalid_y = encb.transform(bvalid[1].reshape(len(bvalid[1]),1))

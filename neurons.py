@@ -6,7 +6,7 @@
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
-plt.rcParams.update({'font.size': 6})
+# plt.rcParams.update({'font.size': 6})
 
 nlfuns = {
         'Rectifier (Relu)':     ('b', '', lambda x: np.maximum(0, x)),
@@ -19,7 +19,7 @@ evalpoints = np.linspace(-4, 4, 51)
 
 params = {
    'axes.labelsize': 10,
-   'text.fontsize': 10,
+   #'text.fontsize': 10,
    'legend.fontsize': 10,
    'xtick.labelsize': 8,
    'ytick.labelsize': 8,
@@ -35,7 +35,7 @@ plt.axes(frameon=0)
 plt.axvline(0, color=[0.6]*3)
 plt.axhline(0, color=[0.6]*3)
 for nlname, (color, marker, nlfun) in nlfuns.items():
-        plt.plot(evalpoints, map(nlfun, evalpoints), hold=True, label=nlname, color=color, marker=marker)
+        plt.plot(evalpoints, list(map(nlfun, evalpoints)), hold=True, label=nlname, color=color, marker=marker)
 plt.title('Nonlinearities')
 plt.xlim(-3, 3)
 plt.ylim(-0.1, 2)

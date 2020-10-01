@@ -103,7 +103,7 @@ from keras.optimizers import SGD
 from keras.optimizers import Adam
 from sklearn.preprocessing import OneHotEncoder
 
-enc = OneHotEncoder(handle_unknown='ignore')
+enc = OneHotEncoder(handle_unknown='ignore',sparse=False)
 enc.fit(train[1])
 train_y = enc.transform(train[1])
 valid_y = enc.transform(valid[1])

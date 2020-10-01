@@ -20,6 +20,7 @@ Please install theanets and bpython.
 pip install --user keras
 pip install --user tensorflow
 pip install --user scikit-learn
+pip install --user juypterlab
 `````
 
 Get a recent version of this presentation:
@@ -28,6 +29,11 @@ Get a recent version of this presentation:
 git clone https://github.com/abramhindle/keras-deep-learning-tutorial.git
 ```
 
+Then run the notebook.
+
+```
+jupyter lab "./Keras Deep Learning Tutorial.ipynb"
+```
 
 
 
